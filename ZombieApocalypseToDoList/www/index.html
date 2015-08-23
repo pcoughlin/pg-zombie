@@ -5,118 +5,153 @@
     content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
     <title>Zombie Apocalypse To-Do List</title>
     <link rel="stylesheet" type="text/css" href="css/index.css" />
-    <script type="text/javascript" language="JavaScript">
-        // create a new to-do
-function createNewToDo() {
-	var todoDictionary = {};
+    <style>
+.button {
+    background-color: #000000;
+    color: #FFFFFF;
+    float: right;
+    padding: 10px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
 
-	// prompt the user to enter to-do
-	var todo = prompt( & amp; quot; To - Do & amp; quot; ,  & amp; quot;  & amp; quot; );
-	if (todo != null) {
-		if (todo ==  & amp; quot;  & amp; quot; ) {
-			alert( & amp; quot; To - Do can & amp;  # 39; t be empty! & amp; quot; );
-		} else {
-			// append the new to-do with the table
-			todoDictionary = {
-				check : 0,
-				text : todo
-			};
-			addTableRow(todoDictionary, false);
-		}
-	}
+.small-btn {
+    /* width: 50px; */
+    height: 20px;
+}
+
+.medium-btn {
+    /* width: 70px; */
+    height: 30px;
+}
+
+.big-btn {
+    /* width: 90px; */
+    height: 40px;
+}
+    
+</style>
+    <script type="text/javascript" language="JavaScript">
+// create a new to-do
+function createNewToDo() {
+        var todoDictionary = {};
+
+        // prompt the user to enter to-do
+        var todo = prompt("To-Do", "");
+        if (todo != null) {
+                if (todo == "") {
+                        alert("To-Do can't be empty!");
+                } else {
+                        // append the new to-do with the table
+                        todoDictionary = {
+                                check : 0,
+                                text : todo
+                        };
+                        addTableRow(todoDictionary, false);
+                }
+        }
 
 }
 // add a row to the table
 var rowID = 0;
-function addTableRow(todoDictionary, appIsLoading) {
-	rowID += 1;
-	var table = document.getElementById("dataTable");
-	var rowCount = table.rows.length;
-	var row = table.insertRow(rowCount);
-
-	// create the checkbox
-	var cell1 = row.insertCell(0);
-	var element1 = document.createElement("input");
-	element1.type = "checkbox";
-	element1.name = "chkbox[]";
-	element1.checked = todoDictionary["check"];
-	element1.setAttribute("onclick", "checkboxClicked()");
-	cell1.appendChild(element1);
-
-	// create the textbox
-	var cell2 = row.insertCell(1);
-	var element2 = document.createElement("input");
-	element2.type = "text";
-	element2.name = "txtbox[]";
-	element2.size = 16;
-	element2.id = "text" + rowID;
-	element2.value = todoDictionary["text"];
-	element2.setAttribute("onchange", "saveToDoList()");
-	cell2.appendChild(element2);
-
-	// create the view button
-	var cell3 = row.insertCell(2);
-	var element3 = document.createElement("input");
-	element3.type = "button";
-	element3.id = rowID;
-	element3.value = "View";
-	element3.setAttribute("onclick", "viewSelectedRow(document.getElementById('text' + this.id))");
-	cell3.appendChild(element3);
-
-	// create the delete button
-	var cell4 = row.insertCell(3);
-	var element4 = document.createElement("input");
-	element4.type = "button";
-	element4.value = "Delete";
-	element4.setAttribute("onclick", "deleteSelectedRow(this)");
-	cell4.appendChild(element4);
-
-	// update the UI and save the to-do list
-	checkboxClicked();
-	saveToDoList();
-
-	if (!appIsLoading)
-		alert("Task Added Successfully.");
+function addTableRow(todoDictionary, appIsLoading)
+{
+    rowID +=1;
+    var table = document.getElementById("dataTable");
+    var rowCount = table.rows.length;
+    var row = table.insertRow(rowCount);
+ 
+    // create the checkbox
+    var cell1 = row.insertCell(0);
+    var element1 = document.createElement("input");
+    element1.type = "checkbox";
+    element1.name = "chkbox[]";
+    element1.checked = todoDictionary["check"];
+    element1.setAttribute("onclick", "checkboxClicked()");
+	element1.className = "checkbox"; // ADD ME - Add the class name 'checkbox' to element1
+    cell1.appendChild(element1);
+ 
+    // create the textbox
+    var cell2 = row.insertCell(1);
+    var element2 = document.createElement("input");
+    element2.type = "text";
+    element2.name = "txtbox[]";
+    element2.size = 16;
+    element2.id = "text" + rowID;
+    element2.value = todoDictionary["text"];
+    element2.setAttribute("onchange", "saveToDoList()");
+	element2.className = "textbox"; // ADD ME - Add the class name 'textbox' to element2
+    cell2.appendChild(element2);
+ 
+    // create the view button
+    var cell3 = row.insertCell(2);
+    var element3 = document.createElement("input");
+    element3.type = "button";
+    element3.id = rowID;
+    element3.value = "View";
+    element3.setAttribute("onclick", "viewSelectedRow(document.getElementById('text' + this.id))");
+	element3.className = "viewButton"; // ADD ME - Add the class name 'viewButton' to element3
+    cell3.appendChild(element3);
+ 
+    // create the delete button
+    var cell4 = row.insertCell(3);
+    var element4 = document.createElement("input");
+    element4.type = "button";
+    element4.value = "Delete";
+    element4.setAttribute("onclick", "deleteSelectedRow(this)");
+	element4.className = "deleteButton";
+    cell4.appendChild(element4);
+ 
+    // update the UI and save the to-do list
+    checkboxClicked();
+    saveToDoList();
+ 
+    if (!appIsLoading) alert("Task Added Successfully.");
 }
+
 // add the strike-through styling to completed tasks
-function checkboxClicked() {
-	var table = document.getElementById("dataTable");
-	var rowCount = table.rows.length;
-
-	// loop through all rows of the table
-	for (var i = 0; i < rowCount; i++) {
-		var row = table.rows[i];
-		var chkbox = row.cells[0].childNodes[0];
-		var textbox = row.cells[1].childNodes[0];
-
-		// if the checkbox is checked, add the strike-through styling
-		if (null != chkbox && true == chkbox.checked) {
-			if (null != textbox) {
-				textbox.style.setProperty("text-decoration", "line-through");
-			}
-		}
-
-		// if the checkbox isn't checked, remove the strike-through styling
-		else {
-			textbox.style.setProperty("text-decoration", "none");
-		}
-
-	}
-
-	// save the to-do list
-	saveToDoList();
+function checkboxClicked()
+{
+    var table = document.getElementById("dataTable");
+    var rowCount = table.rows.length;
+ 
+    // loop through all rows of the table
+    for(var i = 0; i < rowCount; i++)
+    {
+        var row = table.rows[i];
+        var chkbox = row.cells[0].childNodes[0];
+        var textbox = row.cells[1].childNodes[0];
+ 
+        // if the checkbox is checked, add the strike-through styling
+        if(null != chkbox && true == chkbox.checked)
+        {
+            if(null != textbox)
+            {		
+                textbox.style.setProperty("text-decoration", "line-through");
+            }
+        }
+ 
+        // if the checkbox isn't checked, remove the strike-through styling
+        else
+        {
+            textbox.style.setProperty("text-decoration", "none");
+        }
+ 
+    }
+ 
+    // save the to-do list
+    saveToDoList();
 }
 // view the content of the selected row
-function viewSelectedRow(todoTextField)
-{
-    alert(todoTextField.value);
+function viewSelectedRow(todoTextField) {
+        alert(todoTextField.value);
 }
 // delete the selected row
-function deleteSelectedRow(deleteButton)
-{
-    var p = deleteButton.parentNode.parentNode;
-    p.parentNode.removeChild(p);
-    saveToDoList();
+function deleteSelectedRow(deleteButton) {
+        var p = deleteButton.parentNode.parentNode;
+        p.parentNode.removeChild(p);
+        saveToDoList();
 }
 // remove completed tasks
 function removeCompletedTasks()
@@ -238,19 +273,27 @@ function deleteAllRows()
     // save the to-do list
     saveToDoList();
 }
-
         
 </script>
   </head>
   <body onload="loadToDoList()">
-    <br />
-	<form>
-    <input type="button" value="Add To-Do" onclick="createNewToDo()"/>
-    <input type="button" value="Remove Completed Tasks()" onclick="removeCompletedTasks()"/>
-    <br/><br/>
-	</form>
-    <table id="dataTable" width="100%" border="1">
- 
-    </table>
-  </body>
+  <img src="img/header.png" width="100%" />
+  <br />
+  <br />
+  <button class="addToDo" onclick="createNewToDo()">
+    <img src="img/button_addtodo.png" />
+  </button> 
+  <button class="removeTasks" onclick="removeCompletedTasks()">
+    <img src="img/button_removetasks.png" />
+  </button>
+  <br />
+  <br />
+  <table id="dataTable" width="100%" border="1"></table>
+  <p>Click the button to display an alert box:</p>
+  <button class="button big-btn" onclick="myFunction()">Try it</button> 
+  <script>
+function myFunction() {
+    alert("I am an alert box!");
+}
+</script></body>
 </html>
