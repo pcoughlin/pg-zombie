@@ -24,6 +24,7 @@
         <!-- jasmine source -->
         <link rel="shortcut icon" type="image/png" href="spec/lib/jasmine-1.2.0/jasmine_favicon.png">
         <link rel="stylesheet" type="text/css" href="spec/lib/jasmine-1.2.0/jasmine.css">
+		<link rel="stylesheet" type="text/css" href="css/button.css" />
         <script type="text/javascript" src="spec/lib/jasmine-1.2.0/jasmine.js"></script>
         <script type="text/javascript" src="spec/lib/jasmine-1.2.0/jasmine-html.js"></script>
 
@@ -64,5 +65,14 @@
     </head>
     <body>
         <div id="stage" style="display:none;"></div>
+		<button class="button big-btn" onclick="newPage()">Home Page</button>
+		  <script>
+function myFunction() {
+    alert("Gillian is the Bestest Ever!!!");
+}
+function newPage() {
+    window.location.assign("index.html")
+}
+</script>
     </body>
 </html>
